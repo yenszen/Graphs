@@ -138,7 +138,29 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+        return self.dfs_recursive_helper([starting_vertex], destination_vertex, visited)
+
+    # returns an array path from starting vertex to destination vertex, else returns empty list
+    def dfs_recursive_helper(self, current_path, destination_vertex, visited):
+        current_vertex = current_path[-1]
+
+        if current_vertex == destination_vertex:
+            return current_path
+
+        visited.add(current_vertex)
+
+        for neighbor in self.get_neighbors(current_vertex):
+            if neighbor not in visited:
+                new_path = list(current_path)
+                new_path.append(neighbor)
+                result = self.dfs_recursive_helper(new_path, destination_vertex, visited)
+                # since this helper function returns an array if there exists a path from start to dest
+                # therefore if result is NOT empty list, it's the path we're looking for
+                if len(result) > 0:
+                    return result
+
+        return []
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
