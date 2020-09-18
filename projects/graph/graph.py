@@ -8,7 +8,6 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
-        self.discovered = set()
 
     def add_vertex(self, vertex_id):
         """
@@ -73,12 +72,15 @@ class Graph:
 
         This should be done using recursion.
         """
-        self.discovered.add(starting_vertex)
+        visited = set()
+        return self.dft_recursive_helper(starting_vertex, visited)
+
+    def dft_recursive_helper(self, starting_vertex, visited):
+        visited.add(starting_vertex)
         print(starting_vertex)
         for neighbor in self.get_neighbors(starting_vertex):
-            if neighbor not in self.discovered:
-                self.dft_recursive(neighbor)
-        # self.discovered = set()
+            if neighbor not in visited:
+                self.dft_recursive_helper(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
