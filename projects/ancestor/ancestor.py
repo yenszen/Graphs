@@ -1,18 +1,18 @@
+from collections import deque, defaultdict
 
 def earliest_ancestor(ancestors, starting_node):
     # clue is in child pair with no parent being the earliest ancestor
     # similar to dest city problem covered in lecture 2!
-    return create_graph(ancestors)
+    pass
 
-def create_graph(paths):
-    graph = {}
 
-    for node in paths:
-        parent, child = node[0], node[1]
-        if parent in graph:
-            graph[parent].add(child)
-        else:
-            graph[parent] = {child}
+def create_graph(edges):
+    # every key I add to to this dict, will have a default value of set()
+    graph = defaultdict(set)
+
+    for edge in edges:
+        ancestor, child = edge[0], edge[1]
+        graph[child].add(ancestor)
 
     return graph
 
