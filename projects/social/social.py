@@ -1,4 +1,5 @@
 import random, math
+from collections import deque
 
 class User:
     def __init__(self, name):
@@ -78,14 +79,28 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        # a dict mapping from node id --> [path from user_id]
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        queue = deque()
+        queue.append([user_id])
+
+        while len(queue) > 0:
+            current_path = queue.popleft()
+            current_node = current_path[-1]
+            visited[current_node] = current_path # bft guarantees that this is the shortest path to current_node from user_id
+
+            for friend in self.friendships[current_node]:
+                if friend not in visited:
+                    new_path = current_path.copy()
+                    new_path.append(friend)
+                    queue.append(new_path)
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
-    print(sg.friendships)
+    print(f"friendships: {sg.friendships}")
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    print(f"connections: {connections}")
